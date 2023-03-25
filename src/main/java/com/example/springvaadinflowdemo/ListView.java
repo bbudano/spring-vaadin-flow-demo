@@ -10,7 +10,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "")
-@PageTitle("Contacts | Vaadin CRM")
+@PageTitle("Customers | Vaadin Flow Demo")
 public class ListView extends VerticalLayout {
     Grid<Customer> grid = new Grid<>(Customer.class);
     TextField filterText = new TextField();
