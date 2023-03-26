@@ -9,11 +9,21 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
+import java.util.List;
+
 @Route(value = "")
 @PageTitle("Customers | Vaadin Flow Demo")
 public class ListView extends VerticalLayout {
+
     Grid<Customer> grid = new Grid<>(Customer.class);
+
     TextField filterText = new TextField();
+
+    private List<Customer> customers = List.of(
+            new Customer(1L, "Customer A", "Address A"),
+            new Customer(2L, "Customer B", "Address B"),
+            new Customer(3L, "Customer C", "Address C")
+    );
 
     public ListView() {
         addClassName("list-view");
@@ -28,6 +38,7 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("id", "name", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+        grid.setItems(customers);
     }
 
     private HorizontalLayout getToolbar() {
