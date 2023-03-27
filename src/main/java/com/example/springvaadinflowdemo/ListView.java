@@ -1,5 +1,7 @@
 package com.example.springvaadinflowdemo;
 
+import com.example.springvaadinflowdemo.customer.model.Customer;
+import com.example.springvaadinflowdemo.customer.repository.CustomerRepository;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -15,18 +17,14 @@ import java.util.List;
 @PageTitle("Customers | Vaadin Flow Demo")
 public class ListView extends VerticalLayout {
 
-    Grid<Customer> grid = new Grid<>(Customer.class);
+    private final CustomerRepository customerRepository;
 
-    TextField filterText = new TextField();
+    private Grid<Customer> grid = new Grid<>(Customer.class);
+    private TextField filterText = new TextField();
 
-    private List<Customer> customers = List.of(
-            new Customer(1L, "Customer A", "Address A"),
-            new Customer(2L, "Customer B", "Address B"),
-            new Customer(3L, "Customer C", "Address C"),
-            new Customer(4L, "Customer D", "Address D")
-    );
+    public ListView(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
 
-    public ListView() {
         addClassName("list-view");
         setSizeFull();
         configureGrid();
@@ -39,7 +37,7 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("id", "name", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.setItems(customers);
+        grid.setItems(getCustomers());
     }
 
     private HorizontalLayout getToolbar() {
@@ -52,6 +50,10 @@ public class ListView extends VerticalLayout {
         var toolbar = new HorizontalLayout(filterText, addContactButton);
         toolbar.addClassName("toolbar");
         return toolbar;
+    }
+
+    private List<Customer> getCustomers() {
+        return customerRepository.findAll();
     }
 
 }
