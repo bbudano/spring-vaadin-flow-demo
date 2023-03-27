@@ -22,7 +22,8 @@ public class ListView extends VerticalLayout {
     private List<Customer> customers = List.of(
             new Customer(1L, "Customer A", "Address A"),
             new Customer(2L, "Customer B", "Address B"),
-            new Customer(3L, "Customer C", "Address C")
+            new Customer(3L, "Customer C", "Address C"),
+            new Customer(4L, "Customer D", "Address D")
     );
 
     public ListView() {
