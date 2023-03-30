@@ -2,6 +2,7 @@ package com.example.springvaadinflowdemo.components;
 
 import com.example.springvaadinflowdemo.customer.model.Customer;
 import com.example.springvaadinflowdemo.customer.service.CustomerService;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -21,13 +22,28 @@ public class ListView extends VerticalLayout {
 
     private final TextField filterText = new TextField();
 
+    private CustomerForm form;
+
     public ListView(CustomerService customerService) {
         this.customerService = customerService;
 
         addClassName("list-view");
         setSizeFull();
         configureGrid();
-        add(getToolbar(), grid);
+        configureForm();
+
+        add(getToolbar(), getContent());
+    }
+
+    private Component getContent() {
+        var content = new HorizontalLayout(grid, form);
+
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, form);
+        content.addClassNames("content");
+        content.setSizeFull();
+
+        return content;
     }
 
     private void configureGrid() {
@@ -38,15 +54,21 @@ public class ListView extends VerticalLayout {
         grid.setItems(customerService.getCustomers());
     }
 
+    private void configureForm() {
+        form = new CustomerForm();
+        form.setWidth("25em");
+    }
+
     private HorizontalLayout getToolbar() {
         filterText.setPlaceholder("Search");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
 
-        Button addContactButton = new Button("Add customer");
+        var addContactButton = new Button("Add customer");
 
         var toolbar = new HorizontalLayout(filterText, addContactButton);
         toolbar.addClassName("toolbar");
+
         return toolbar;
     }
 
