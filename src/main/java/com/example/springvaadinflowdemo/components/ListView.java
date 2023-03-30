@@ -1,7 +1,7 @@
-package com.example.springvaadinflowdemo;
+package com.example.springvaadinflowdemo.components;
 
 import com.example.springvaadinflowdemo.customer.model.Customer;
-import com.example.springvaadinflowdemo.customer.repository.CustomerRepository;
+import com.example.springvaadinflowdemo.customer.service.CustomerService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -11,24 +11,22 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import java.util.List;
-
 @Route(value = "")
 @PageTitle("Customers | Vaadin Flow Demo")
 public class ListView extends VerticalLayout {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
 
-    private Grid<Customer> grid = new Grid<>(Customer.class);
-    private TextField filterText = new TextField();
+    private final Grid<Customer> grid = new Grid<>(Customer.class);
 
-    public ListView(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    private final TextField filterText = new TextField();
+
+    public ListView(CustomerService customerService) {
+        this.customerService = customerService;
 
         addClassName("list-view");
         setSizeFull();
         configureGrid();
-
         add(getToolbar(), grid);
     }
 
@@ -37,7 +35,7 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("id", "name", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.setItems(getCustomers());
+        grid.setItems(customerService.getCustomers());
     }
 
     private HorizontalLayout getToolbar() {
@@ -50,10 +48,6 @@ public class ListView extends VerticalLayout {
         var toolbar = new HorizontalLayout(filterText, addContactButton);
         toolbar.addClassName("toolbar");
         return toolbar;
-    }
-
-    private List<Customer> getCustomers() {
-        return customerRepository.findAll();
     }
 
 }
