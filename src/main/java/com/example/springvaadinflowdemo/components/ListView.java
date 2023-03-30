@@ -33,6 +33,7 @@ public class ListView extends VerticalLayout {
         configureForm();
 
         add(getToolbar(), getContent());
+        updateCustomersList();
     }
 
     private Component getContent() {
@@ -51,7 +52,6 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("id", "name", "email", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
-        grid.setItems(customerService.getCustomers());
     }
 
     private void configureForm() {
@@ -63,6 +63,7 @@ public class ListView extends VerticalLayout {
         filterText.setPlaceholder("Search");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateCustomersList());
 
         var addContactButton = new Button("Add customer");
 
@@ -70,6 +71,10 @@ public class ListView extends VerticalLayout {
         toolbar.addClassName("toolbar");
 
         return toolbar;
+    }
+
+    private void updateCustomersList() {
+        grid.setItems(customerService.filterCustomers(filterText.getValue()));
     }
 
 }

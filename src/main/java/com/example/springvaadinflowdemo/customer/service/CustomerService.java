@@ -17,8 +17,8 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public List<Customer> getCustomers() {
-        return customerRepository.findAll();
+    public List<Customer> filterCustomers(String filterContext) {
+        return customerRepository.findByNameContainingIgnoreCase(filterContext);
     }
 
 }
