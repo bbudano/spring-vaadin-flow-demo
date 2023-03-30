@@ -33,7 +33,7 @@ public class ListView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassNames("customer-grid");
         grid.setSizeFull();
-        grid.setColumns("id", "name", "address");
+        grid.setColumns("id", "name", "email", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.setItems(customerService.getCustomers());
     }
