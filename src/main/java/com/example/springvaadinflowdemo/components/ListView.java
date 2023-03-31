@@ -29,11 +29,14 @@ public class ListView extends VerticalLayout {
 
         addClassName("list-view");
         setSizeFull();
+
         configureGrid();
         configureForm();
 
         add(getToolbar(), getContent());
+
         updateCustomersList();
+        closeEditor();
     }
 
     private Component getContent() {
@@ -52,11 +55,17 @@ public class ListView extends VerticalLayout {
         grid.setSizeFull();
         grid.setColumns("id", "name", "email", "address");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
+
+        grid.asSingleSelect().addValueChangeListener(event ->
+                editCustomer(event.getValue()));
     }
 
     private void configureForm() {
         form = new CustomerForm();
         form.setWidth("25em");
+        form.addSaveListener(this::saveCustomer);
+        form.addDeleteListener(this::deleteCustomer);
+        form.addCloseListener(e -> closeEditor());
     }
 
     private HorizontalLayout getToolbar() {
@@ -65,12 +74,46 @@ public class ListView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateCustomersList());
 
-        var addContactButton = new Button("Add customer");
+        var addCustomerBtn = new Button("Add customer");
+        addCustomerBtn.addClickListener(click -> deselectCustomer());
 
-        var toolbar = new HorizontalLayout(filterText, addContactButton);
+        var toolbar = new HorizontalLayout(filterText, addCustomerBtn);
         toolbar.addClassName("toolbar");
 
         return toolbar;
+    }
+
+    private void closeEditor() {
+        form.setCustomer(null);
+        form.setVisible(false);
+        removeClassName("editing");
+    }
+
+    private void deselectCustomer() {
+        grid.asSingleSelect().clear();
+        editCustomer(new Customer());
+    }
+
+    private void editCustomer(Customer customer) {
+        if (customer == null) {
+            closeEditor();
+        } else {
+            form.setCustomer(customer);
+            form.setVisible(true);
+            addClassName("editing");
+        }
+    }
+
+    private void saveCustomer(CustomerForm.SaveEvent event) {
+        customerService.saveCustomer(event.getCustomer());
+        updateCustomersList();
+        closeEditor();
+    }
+
+    private void deleteCustomer(CustomerForm.DeleteEvent event) {
+        customerService.deleteCustomer(event.getCustomer());
+        updateCustomersList();
+        closeEditor();
     }
 
     private void updateCustomersList() {

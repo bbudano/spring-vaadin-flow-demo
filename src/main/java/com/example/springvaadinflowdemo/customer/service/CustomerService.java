@@ -13,12 +13,16 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public Customer addCustomer(Customer customer) {
+    public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
     public List<Customer> filterCustomers(String filterContext) {
         return customerRepository.findByNameContainingIgnoreCase(filterContext);
+    }
+
+    public void deleteCustomer(Customer customer) {
+        customerRepository.delete(customer);
     }
 
 }
