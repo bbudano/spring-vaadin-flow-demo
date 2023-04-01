@@ -18,20 +18,20 @@ public class CustomerForm extends FormLayout {
 
     Binder<Customer> binder = new BeanValidationBinder<>(Customer.class);
 
-    TextField name = new TextField("Name");
-    TextField address = new TextField("Address");
-    EmailField email = new EmailField("Email");
+    TextField txtName = new TextField("Name");
+    TextField txtAddress = new TextField("Address");
+    EmailField txtEmail = new EmailField("Email");
 
-    Button save = new Button("Save");
-    Button delete = new Button("Delete");
-    Button close = new Button("Cancel");
+    Button btnSave = new Button("Save");
+    Button btnDelete = new Button("Delete");
+    Button btnClose = new Button("Close");
 
     public CustomerForm() {
         addClassName("customer-form");
 
         binder.bindInstanceFields(this);
 
-        add(name, address, email, createButtonsLayout());
+        add(txtName, txtAddress, txtEmail, createButtonsLayout());
     }
 
     public void setCustomer(Customer customer) {
@@ -39,20 +39,20 @@ public class CustomerForm extends FormLayout {
     }
 
     private HorizontalLayout createButtonsLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        btnSave.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        btnClose.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        save.addClickShortcut(Key.ENTER);
-        close.addClickShortcut(Key.ESCAPE);
+        btnSave.addClickShortcut(Key.ENTER);
+        btnClose.addClickShortcut(Key.ESCAPE);
 
-        save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        btnSave.addClickListener(event -> validateAndSave());
+        btnDelete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
+        btnClose.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        binder.addStatusChangeListener(e -> btnSave.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(save, delete, close);
+        return new HorizontalLayout(btnSave, btnDelete, btnClose);
     }
 
     private void validateAndSave() {
@@ -100,6 +100,7 @@ public class CustomerForm extends FormLayout {
     public Registration addSaveListener(ComponentEventListener<SaveEvent> listener) {
         return addListener(SaveEvent.class, listener);
     }
+
     public Registration addCloseListener(ComponentEventListener<CloseEvent> listener) {
         return addListener(CloseEvent.class, listener);
     }

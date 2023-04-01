@@ -20,7 +20,7 @@ public class ListView extends VerticalLayout {
 
     private final Grid<Customer> grid = new Grid<>(Customer.class);
 
-    private final TextField filterText = new TextField();
+    private final TextField txtFilter = new TextField();
 
     private CustomerForm form;
 
@@ -35,7 +35,7 @@ public class ListView extends VerticalLayout {
 
         add(getToolbar(), getContent());
 
-        updateCustomersList();
+        updateGridData();
         closeEditor();
     }
 
@@ -69,15 +69,15 @@ public class ListView extends VerticalLayout {
     }
 
     private HorizontalLayout getToolbar() {
-        filterText.setPlaceholder("Search");
-        filterText.setClearButtonVisible(true);
-        filterText.setValueChangeMode(ValueChangeMode.LAZY);
-        filterText.addValueChangeListener(e -> updateCustomersList());
+        txtFilter.setPlaceholder("Search");
+        txtFilter.setClearButtonVisible(true);
+        txtFilter.setValueChangeMode(ValueChangeMode.LAZY);
+        txtFilter.addValueChangeListener(e -> updateGridData());
 
-        var addCustomerBtn = new Button("Add customer");
-        addCustomerBtn.addClickListener(click -> deselectCustomer());
+        var btnAddCustomer = new Button("Add customer");
+        btnAddCustomer.addClickListener(click -> deselectCustomer());
 
-        var toolbar = new HorizontalLayout(filterText, addCustomerBtn);
+        var toolbar = new HorizontalLayout(txtFilter, btnAddCustomer);
         toolbar.addClassName("toolbar");
 
         return toolbar;
@@ -106,18 +106,18 @@ public class ListView extends VerticalLayout {
 
     private void saveCustomer(CustomerForm.SaveEvent event) {
         customerService.saveCustomer(event.getCustomer());
-        updateCustomersList();
+        updateGridData();
         closeEditor();
     }
 
     private void deleteCustomer(CustomerForm.DeleteEvent event) {
         customerService.deleteCustomer(event.getCustomer());
-        updateCustomersList();
+        updateGridData();
         closeEditor();
     }
 
-    private void updateCustomersList() {
-        grid.setItems(customerService.filterCustomers(filterText.getValue()));
+    private void updateGridData() {
+        grid.setItems(customerService.filterCustomers(txtFilter.getValue()));
     }
 
 }
