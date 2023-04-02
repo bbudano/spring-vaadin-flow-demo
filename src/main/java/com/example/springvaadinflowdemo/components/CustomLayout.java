@@ -1,7 +1,9 @@
 package com.example.springvaadinflowdemo.components;
 
+import com.example.springvaadinflowdemo.security.SecurityService;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -11,7 +13,11 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 public class CustomLayout extends AppLayout {
 
-    public CustomLayout() {
+    private final SecurityService securityService;
+
+    public CustomLayout(SecurityService securityService) {
+        this.securityService = securityService;
+
         addHeader();
         configureDrawer();
     }
@@ -22,9 +28,12 @@ public class CustomLayout extends AppLayout {
                 LumoUtility.FontSize.LARGE,
                 LumoUtility.Margin.MEDIUM);
 
-        var header = new HorizontalLayout(new DrawerToggle(), title );
+        Button logout = new Button("Log out", e -> securityService.logout());
+
+        var header = new HorizontalLayout(new DrawerToggle(), title, logout);
 
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.expand(title);
         header.setWidthFull();
         header.addClassNames(
                 LumoUtility.Padding.Vertical.NONE,

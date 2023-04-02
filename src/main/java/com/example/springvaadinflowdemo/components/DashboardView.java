@@ -6,7 +6,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+import jakarta.annotation.security.PermitAll;
 
+@PermitAll
 @Route(value = "", layout = CustomLayout.class)
 @PageTitle("Dashboard | Vaadin Flow Demo")
 public class DashboardView extends VerticalLayout {

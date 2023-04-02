@@ -11,7 +11,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import jakarta.annotation.security.RolesAllowed;
 
+@RolesAllowed("ADMIN")
 @Route(value = "customers", layout = CustomLayout.class)
 @PageTitle("Customers | Vaadin Flow Demo")
 public class CustomerListView extends VerticalLayout {
