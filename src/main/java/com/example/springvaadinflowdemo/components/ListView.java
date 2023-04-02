@@ -20,7 +20,7 @@ public class ListView extends VerticalLayout {
 
     private final Grid<Customer> grid = new Grid<>(Customer.class);
 
-    private final TextField txtFilter = new TextField();
+    private final TextField filter = new TextField();
 
     private CustomerForm form;
 
@@ -69,15 +69,15 @@ public class ListView extends VerticalLayout {
     }
 
     private HorizontalLayout getToolbar() {
-        txtFilter.setPlaceholder("Search");
-        txtFilter.setClearButtonVisible(true);
-        txtFilter.setValueChangeMode(ValueChangeMode.LAZY);
-        txtFilter.addValueChangeListener(e -> updateGridData());
+        filter.setPlaceholder("Search");
+        filter.setClearButtonVisible(true);
+        filter.setValueChangeMode(ValueChangeMode.LAZY);
+        filter.addValueChangeListener(e -> updateGridData());
 
-        var btnAddCustomer = new Button("Add customer");
-        btnAddCustomer.addClickListener(click -> deselectCustomer());
+        var addCustomerBtn = new Button("Add customer");
+        addCustomerBtn.addClickListener(click -> deselectCustomer());
 
-        var toolbar = new HorizontalLayout(txtFilter, btnAddCustomer);
+        var toolbar = new HorizontalLayout(filter, addCustomerBtn);
         toolbar.addClassName("toolbar");
 
         return toolbar;
@@ -117,7 +117,7 @@ public class ListView extends VerticalLayout {
     }
 
     private void updateGridData() {
-        grid.setItems(customerService.filterCustomers(txtFilter.getValue()));
+        grid.setItems(customerService.filterCustomers(filter.getValue()));
     }
 
 }

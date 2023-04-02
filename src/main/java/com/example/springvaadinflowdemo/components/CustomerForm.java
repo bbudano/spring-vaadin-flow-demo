@@ -18,20 +18,20 @@ public class CustomerForm extends FormLayout {
 
     Binder<Customer> binder = new BeanValidationBinder<>(Customer.class);
 
-    TextField txtName = new TextField("Name");
-    TextField txtAddress = new TextField("Address");
-    EmailField txtEmail = new EmailField("Email");
+    TextField name = new TextField("Name");
+    TextField address = new TextField("Address");
+    EmailField email = new EmailField("Email");
 
-    Button btnSave = new Button("Save");
-    Button btnDelete = new Button("Delete");
-    Button btnClose = new Button("Close");
+    Button save = new Button("Save");
+    Button delete = new Button("Delete");
+    Button close = new Button("Close");
 
     public CustomerForm() {
         addClassName("customer-form");
 
         binder.bindInstanceFields(this);
 
-        add(txtName, txtAddress, txtEmail, createButtonsLayout());
+        add(name, address, email, createButtonsLayout());
     }
 
     public void setCustomer(Customer customer) {
@@ -39,20 +39,20 @@ public class CustomerForm extends FormLayout {
     }
 
     private HorizontalLayout createButtonsLayout() {
-        btnSave.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        btnDelete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        btnClose.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
-        btnSave.addClickShortcut(Key.ENTER);
-        btnClose.addClickShortcut(Key.ESCAPE);
+        save.addClickShortcut(Key.ENTER);
+        close.addClickShortcut(Key.ESCAPE);
 
-        btnSave.addClickListener(event -> validateAndSave());
-        btnDelete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
-        btnClose.addClickListener(event -> fireEvent(new CloseEvent(this)));
+        save.addClickListener(event -> validateAndSave());
+        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, binder.getBean())));
+        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
 
-        binder.addStatusChangeListener(e -> btnSave.setEnabled(binder.isValid()));
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(btnSave, btnDelete, btnClose);
+        return new HorizontalLayout(save, delete, close);
     }
 
     private void validateAndSave() {
