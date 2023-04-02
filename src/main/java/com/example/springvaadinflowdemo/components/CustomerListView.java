@@ -12,9 +12,9 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-@Route(value = "")
+@Route(value = "customers", layout = CustomLayout.class)
 @PageTitle("Customers | Vaadin Flow Demo")
-public class ListView extends VerticalLayout {
+public class CustomerListView extends VerticalLayout {
 
     private final CustomerService customerService;
 
@@ -24,7 +24,7 @@ public class ListView extends VerticalLayout {
 
     private CustomerForm form;
 
-    public ListView(CustomerService customerService) {
+    public CustomerListView(CustomerService customerService) {
         this.customerService = customerService;
 
         addClassName("list-view");
