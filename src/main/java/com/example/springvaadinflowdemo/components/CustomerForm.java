@@ -57,12 +57,12 @@ public class CustomerForm extends FormLayout {
 
     private void validateAndSave() {
         if(binder.isValid()) {
-            fireEvent(new SaveEvent(this, binder.getBean())); // <6>
+            fireEvent(new SaveEvent(this, binder.getBean()));
         }
     }
 
     public abstract static class CustomerFormEvent extends ComponentEvent<CustomerForm> {
-        private Customer customer;
+        private final transient Customer customer;
 
         protected CustomerFormEvent(CustomerForm source, Customer customer) {
             super(source, false);

@@ -13,7 +13,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 
 public class CustomLayout extends AppLayout {
 
-    private final SecurityService securityService;
+    private final transient SecurityService securityService;
 
     public CustomLayout(SecurityService securityService) {
         this.securityService = securityService;

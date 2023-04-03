@@ -18,7 +18,7 @@ import jakarta.annotation.security.RolesAllowed;
 @PageTitle("Customers | Vaadin Flow Demo")
 public class CustomerListView extends VerticalLayout {
 
-    private final CustomerService customerService;
+    private final transient CustomerService customerService;
 
     private final Grid<Customer> grid = new Grid<>(Customer.class);
 
