@@ -4,6 +4,7 @@ import com.example.springvaadinflowdemo.customer.model.Customer;
 import com.example.springvaadinflowdemo.customer.service.CustomerService;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -77,6 +78,7 @@ public class CustomerListView extends VerticalLayout {
         filter.addValueChangeListener(e -> updateGridData());
 
         var addCustomerBtn = new Button("Add customer");
+        addCustomerBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         addCustomerBtn.addClickListener(click -> deselectCustomer());
 
         var toolbar = new HorizontalLayout(filter, addCustomerBtn);
