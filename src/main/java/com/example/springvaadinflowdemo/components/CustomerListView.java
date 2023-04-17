@@ -79,7 +79,7 @@ public class CustomerListView extends VerticalLayout {
 
         var addCustomerBtn = new Button("Add customer");
         addCustomerBtn.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        addCustomerBtn.addClickListener(click -> deselectCustomer());
+        addCustomerBtn.addClickListener(click -> addCustomer());
 
         var toolbar = new HorizontalLayout(filter, addCustomerBtn);
         toolbar.addClassName("toolbar");
@@ -93,7 +93,7 @@ public class CustomerListView extends VerticalLayout {
         removeClassName("editing");
     }
 
-    private void deselectCustomer() {
+    private void addCustomer() {
         grid.asSingleSelect().clear();
         editCustomer(new Customer());
     }
